@@ -38,7 +38,7 @@
       <td mat-cell *matCellDef="let element">
         <advanced-image *ngIf="cloudService.USE_CLOUD && element['hasImage']" [cldImg]="element['img']"></advanced-image>
         <!--<img *ngIf="element['hasImage']" class="brick-img" src='{{ "assets/bricks/" + element.id + ".png" }}'/>-->
-        <div *ngIf="!element['hasImage']" class="brick-noimg">?</div>
+        <div *ngIf="!(cloudService.USE_CLOUD && element['hasImage'])" class="brick-noimg">?</div>
       </td>
     </ng-container>
 

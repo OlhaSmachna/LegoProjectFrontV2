@@ -161,24 +161,26 @@ export class TableComponent implements OnInit, OnDestroy{
 
     this.brickUpdatedEventSub = this.bricksEventsService.getBrickUpdatedEvent().subscribe(brick => {
       if (brick.id != null) {
-        let image: CloudinaryImage;
-        if(brick.imageVersion != 0){
-          image = this.cloudService.getImageWithVersion(brick.id, brick.imageVersion, 70);
-        }
-        else {
-          image = this.cloudService.getImage(brick.id, 70);
-        }
+        let image: CloudinaryImage = new CloudinaryImage;
+        if(this.cloudService.USE_CLOUD){
+          if(brick.imageVersion != 0){
+            image = this.cloudService.getImageWithVersion(brick.id, brick.imageVersion, 70);
+          }
+          else {
+            image = this.cloudService.getImage(brick.id, 70);
+          }
+        }    
 
         let indexLoaded = this.loadedBricks.findIndex(b => b.id == brick.id);
         if(indexLoaded != -1) {
           this.loadedBricks[indexLoaded] = brick;
-          this.loadedBricks[indexLoaded].img = image;
+          if(this.cloudService.USE_CLOUD) this.loadedBricks[indexLoaded].img = image;
         }
 
         let indexDisplayed = this.bricksToDisplay.findIndex(b => b.id == brick.id);
         if(indexDisplayed != -1) {
           this.bricksToDisplay[indexDisplayed] = brick;
-          this.bricksToDisplay[indexDisplayed].img = image;
+          if(this.cloudService.USE_CLOUD) this.bricksToDisplay[indexDisplayed].img = image;
         }
 
         this.setDataSrc();

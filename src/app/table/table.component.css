@@ -1,0 +1,298 @@
+.table-top {
+  width: 100%;
+}
+
+.table-top .table-info-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.table-top .table-info-container .search-container {
+  display: flex;
+  align-items: center;
+}
+
+.table-top .table-info-container .search-container ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+  padding-top: 3px !important;
+  padding-bottom: 0 !important;
+}
+
+.table-top .table-info-container .search-container button {
+  border: none;
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  background-image: url("../../assets/icons/search.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  margin-left: 5px;
+}
+
+.table-top .table-info-container .search-container button:hover {
+  background-image: url("../../assets/icons-active/search.png");
+}
+
+.table-top .table-info-container .paginator-container {
+  display: flex;
+  align-items: center;
+}
+
+.table-top .table-info-container .paginator-container button {
+  border: none;
+  width: 24px;
+  height: 24px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  margin: 0 5px;
+}
+
+.table-top .table-info-container .search-results-container {
+  display: flex;
+  align-items: center;
+}
+
+.table-top .table-info-container .search-results-container span {
+  margin-right: 3px;
+}
+
+.table-top .table-info-container .search-results-container .search-result-img {
+  width: 20px;
+  height: 20px;
+  margin-left: 3px;
+}
+
+.table-top #prev {
+  background-image: url("../../assets/icons/prev.png");
+  cursor: default;
+}
+
+.table-top #prev.active:hover {
+  cursor: pointer;
+  background-image: url("../../assets/icons-active/prev.png");
+}
+
+.table-top #next {
+  background-image: url("../../assets/icons/next.png");
+  cursor: default;
+}
+
+.table-top #next.active:hover {
+  cursor: pointer;
+  background-image: url("../../assets/icons-active/next.png");
+}
+
+.table-container {
+  overflow-y: scroll;
+  flex: 1;
+  background-color: var(--grey-bg-body);
+  background-size: 80%;
+  background-repeat: no-repeat;
+  background-position: bottom;
+}
+
+.table-container.has-bg {
+  background-image: url("../../assets/images/chars/bg.png");
+}
+
+.table-container p {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 16px;
+  color: var(--grey-text);
+}
+
+::ng-deep table {
+  flex: 1;
+}
+
+::ng-deep table thead th {
+  font-size: 16px !important;
+  text-align: center !important;
+  cursor: pointer !important;
+}
+
+::ng-deep table thead th:hover {
+  color: var(--blue-active) !important;
+}
+
+::ng-deep table thead th .mat-sort-header-container {
+  justify-content: center;
+}
+
+::ng-deep table tbody tr {
+  height: fit-content !important;
+}
+
+::ng-deep table tbody tr:nth-child(4n+4), ::ng-deep table tbody tr:nth-child(4n+3) {
+  background-color: var(--grey-table-even);
+}
+
+::ng-deep table tbody tr:nth-child(odd) td {
+  padding: 5px 16px !important;
+}
+
+::ng-deep table tbody tr:nth-child(odd):hover {
+  background-color: var(--grey-bg-light) !important;
+}
+
+::ng-deep table tbody tr:nth-child(4n+4):hover {
+  background-color: var(--grey-table-even) !important;
+}
+
+::ng-deep table tbody tr td.mat-column-image {
+  width: 70px;
+}
+
+::ng-deep table tbody tr td .brick-img {
+  width: 70px;
+}
+
+::ng-deep table tbody tr td .brick-noimg {
+  width: 60px;
+  height: 60px;
+  margin: 5px;
+  background-image: url("../../assets/icons/result.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  text-align: center;
+  line-height: 60px;
+  font-size: 45px;
+  font-weight: bold;
+  user-select: none;
+}
+
+::ng-deep table tbody tr td .table-cell-btn-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+::ng-deep table tbody tr td .table-cell-btn-container .table-cell-btn-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+::ng-deep table tbody tr td .table-cell-btn-container .table-cell-btn-col .table-btn {
+  border: none;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  margin: 5px;
+}
+
+::ng-deep table tbody tr td .table-cell-btn-container .table-cell-btn-col .table-btn.btn-user {
+  width: 30px;
+  height: 30px;
+}
+
+::ng-deep table tbody tr td .table-cell-btn-container .table-cell-btn-col .table-btn.btn-admin {
+  width: 25px;
+  height: 25px;
+}
+
+.expanded {
+  height: fit-content;
+  border: none !important;
+  padding: 0 !important;
+}
+
+.expanded .element-detail {
+  overflow: hidden;
+  border-bottom-style: solid;
+  border-bottom-color: rgba(0, 0, 0, 0.12);
+}
+
+.expanded .element-detail ::ng-deep .mat-mdc-tab-body-content {
+  padding: 8px 16px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 7px;
+}
+
+.expanded .element-detail ::ng-deep .mat-mdc-tab-body-content .form-row {
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+  justify-content: center;
+}
+
+.expanded .element-detail ::ng-deep .mat-mdc-tab-body-content .form-row.adjusted {
+  justify-content: space-between;
+  padding: 10px;
+  gap: 20px;
+}
+
+.expanded .element-detail ::ng-deep .mat-mdc-tab-body-content .form-row .form-group {
+  flex-grow: 1;
+}
+
+.expanded .element-detail ::ng-deep .mat-mdc-tab-body-content .form-row .form-group.adjusted {
+  display: flex;
+  align-items: flex-end;
+}
+
+.expanded .element-detail ::ng-deep .mat-mdc-tab-body-content .form-row .form-group.adjusted:first-child {
+  justify-content: flex-end;
+}
+
+.expanded .element-detail ::ng-deep .mat-mdc-tab-body-content .form-row .form-group.adjusted label {
+  max-width: min-content;
+  margin-right: 15px;
+}
+
+.expanded .element-detail ::ng-deep .mat-mdc-tab-body-content .form-row .form-group .mat-mdc-form-field {
+  width: 150px !important;
+  display: block;
+  border-color: var(--bs-border-color);
+}
+
+.expanded .element-detail ::ng-deep .mat-mdc-tab-body-content .form-row .form-group .mat-mdc-form-field ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+  padding-top: 7px !important;
+  padding-bottom: 7px !important;
+  min-height: 38px !important;
+}
+
+.default-option {
+  justify-content: center;
+  font-style: italic;
+}
+
+::ng-deep .mat-mdc-form-field-infix {
+  height: 30px !important;
+  min-height: 30px !important;
+  max-height: 30px !important;
+}
+
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+::ng-deep .mat-mdc-select-panel {
+  position: relative !important;
+  left: -13px !important;
+  top: 5px !important;
+}
+
+@media only screen and (max-width: 750px) {
+  .form-row {
+    flex-direction: column !important;
+  }
+  td .mat-mdc-form-field {
+    min-width: 100% !important;
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  .paginator-container {
+    margin-left: auto;
+  }
+}

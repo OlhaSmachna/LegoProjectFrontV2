@@ -125,7 +125,7 @@ export class BrickDialogComponent implements OnInit{
 
     if(this.brickIdValid && this.brickNameValid) {
       this.isLoading = true;
-      if(this.data.brick.hasImage && !this.isOriginalImage && this.uploadedFile){
+      if(this.cloudService.USE_CLOUD && this.data.brick.hasImage && !this.isOriginalImage && this.uploadedFile){
         this.cloudService.uploadImage(this.uploadedFile, this.data.brick.id).then(cloudResponse => {
           let cloudResponseJson = JSON.parse(cloudResponse);
           this.data.brick.imageVersion = cloudResponseJson.version;

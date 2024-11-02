@@ -9,14 +9,16 @@ import { HttpErrorResponse } from "@angular/common/http";
 })
 export class CloudService {
   public readonly USE_CLOUD: boolean = true;
-  private readonly CLOUD_NAME: string = process.env['NG_APP_CLOUD_NAME'] ?? '';
-  private readonly CLOUD_FOLDER: string = process.env['NG_APP_CLOUD_FOLDER'] ?? '';
-  private readonly CLOUD_KEY: string = process.env['NG_APP_CLOUD_KEY'] ?? '';
-  private readonly UPLOAD_PRESET: string = process.env['NG_APP_UPLOAD_PRESET'] ?? '';
+  private readonly CLOUD_NAME: string = process.env["CLOUD_NAME"] ?? '';
+  private readonly CLOUD_FOLDER: string = process.env["CLOUD_FOLDER"] ?? '';
+  private readonly CLOUD_KEY: string = process.env["CLOUD_KEY"] ?? '';
+  private readonly UPLOAD_PRESET: string = process.env["UPLOAD_PRESET"] ?? '';
   public CLOUD!: Cloudinary;
   constructor(
     private cloudinaryService: CloudinaryService
   ) {
+    if(this.CLOUD_NAME == '' || this.CLOUD_FOLDER == '' || this.CLOUD_KEY == '' || this.UPLOAD_PRESET == '')
+      this.USE_CLOUD = false;
     if(this.USE_CLOUD)
       this.CLOUD = new Cloudinary({cloud: {cloudName: this.CLOUD_NAME}});
   }

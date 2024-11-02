@@ -11,12 +11,14 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
-            "outputPath": {
-              "base": "dist/lego-project-front"
+            "customWebpackConfig": {
+                "path":"custom-webpack.config.js"
             },
+            "outputPath": "dist/lego-project-front",
             "index": "src/index.html",
+            "main": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -29,8 +31,8 @@
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
-            "scripts": [],
-            "browser": "src/main.ts"
+            "scripts": []
+            
           },
           "configurations": {
             "production": {
@@ -52,14 +54,13 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true,
-              "outputHashing": "media" 
+              "namedChunks": true
             }
           },
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@ngx-env/builder",
+          "builder": "@angular-builders/custom-webpack:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "LegoProjectFront:build:production"

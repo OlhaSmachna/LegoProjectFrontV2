@@ -1,15 +1,18 @@
-.mat-drawer:not(.mat-drawer-side){
+.mat-drawer:not(.mat-drawer-side) {
   box-shadow: none !important;
 }
-.mat-drawer-content{
+
+.mat-drawer-content {
   display: flex !important;
   height: 100vh;
   align-items: flex-start;
 }
-.mat-drawer-side.mat-drawer-end{
+
+.mat-drawer-side.mat-drawer-end {
   border: none !important;
 }
-app-table{
+
+app-table {
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -17,20 +20,23 @@ app-table{
   min-height: 100vh !important;
   overflow: hidden;
 }
-app-menu{
+
+app-menu {
   display: contents;
 }
-.col-3{
+
+.col-3 {
   width: 25% !important;
 }
+
 @media only screen and (max-width: 600px) {
-  .hide-table{
+  .hide-table {
     display: none;
   }
-  .hide-table-parent{
+  .hide-table-parent {
     overflow: hidden;
   }
-  .sidenav-full{
-    width: unquote("calc(100% - 55px)");
+  .sidenav-full {
+    width: calc(100% - 55px);
   }
 }

@@ -10,7 +10,7 @@
       <advanced-image *ngIf="cloudService.USE_CLOUD && data.brick.hasImage && isOriginalImage" [cldImg]="imageFromCloud"></advanced-image>
       <img *ngIf="!data.brick.hasImage || (data.brick.hasImage && !isOriginalImage)" [src]="imageSrc" alt="brick image">
       <p *ngIf="!data.brick.hasImage">Image not<br/>selected</p>
-      <div class="buttons-container">
+      <div *ngIf="cloudService.USE_CLOUD" class="buttons-container">
         <button appMenuBtn [attr.data-image]="btnUrls.addIconUrl" (click)="fileInput.click()">
           <input #fileInput type="file" accept="image/*" (change)="onFileInput($event)" style="display:none;" />
         </button>
