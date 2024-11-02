@@ -1,1 +1,17 @@
-<p>upload-dialog works!</p>
+<h1 mat-dialog-title><img src="assets/icons/lego.png" alt="logo">BricksManager 2.0</h1>
+<mat-divider></mat-divider>
+
+<div mat-dialog-content>
+  <p>Upload from XML string (BrickLink Inventory XML format)</p>
+  <mat-form-field class="full-width" appearance="outline">
+    <textarea [(ngModel)]="xmlString" matInput placeholder="Copy and paste here"></textarea>
+  </mat-form-field>
+  <div><button class="upload-btn" (click)="fileInput.click()">Upload from disk</button><span>{{fileName}}</span></div>
+  <input #fileInput type="file" accept="text/plain,application/xml" (change)="onFileInput($event)" style="display:none;"/>
+</div>
+
+
+<div mat-dialog-actions>
+  <button mat-button class="confirm-btn" (click)="uploadClick()">Upload</button>
+  <button mat-button class="cancel-btn" [mat-dialog-close]="false" cdkFocusInitial>Cancel</button>
+</div>

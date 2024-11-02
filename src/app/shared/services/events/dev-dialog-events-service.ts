@@ -5,19 +5,12 @@ import {MenuOptions} from "../../../menu/menu.component";
 @Injectable({
   providedIn: 'root'
 })
-export class MenuEventsService {
-  private tab: BehaviorSubject<MenuOptions> = new BehaviorSubject<MenuOptions>(MenuOptions.Categories);
-  private isOpened: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-  public sendTabChangedEvent(option: MenuOptions) {
-    this.tab.next(option);
-  }
-  public getTabChangedEvent(): Observable<MenuOptions>{
-    return this.tab.asObservable();
-  }
-  public sendMenuToggleEvent(state: boolean) {
+export class DevDialogEventsService {
+  private isOpened: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public sendToggleEvent(state: boolean) {
     this.isOpened.next(state);
   }
-  public getMenuToggleEvent(): Observable<boolean>{
+  public getToggleEvent(): Observable<boolean>{
     return this.isOpened.asObservable();
   }
 }

@@ -6,6 +6,7 @@ export interface BrickDto {
   name: string;
   material: string;
   hasImage: boolean;
+  imageVersion: number;
   colors: ColorDto[];
   quantity: number;
   img: CloudinaryImage | null;

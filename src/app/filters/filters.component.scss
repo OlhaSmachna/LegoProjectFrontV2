@@ -1,4 +1,49 @@
 ::ng-deep .mat-mdc-list-option .mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background {
-  background-color: #0d6efd !important;
-  border-color: #0d6efd !important;
+  background-color: var(--blue-active) !important;
+  border-color: var(--blue-active) !important;
+}
+::ng-deep .mat-mdc-slide-toggle .mdc-switch:enabled .mdc-switch__track::after {
+  background: var(--blue-bg-light) !important;
+}
+::ng-deep .mat-mdc-slide-toggle .mdc-switch.mdc-switch--selected:enabled .mdc-switch__handle::after {
+   background: var(--blue-active) !important;
+}
+
+::ng-deep .mat-ripple-element {
+  background-color: var(--grey-bg-light) !important;
+  z-index: 1 !important;
+}
+::ng-deep .mdc-list-item__content,
+::ng-deep .mdc-list-item__end{
+  z-index: 2 !important;
+}
+
+::ng-deep .mat-drawer-inner-container{
+  padding-bottom: 10px;
+}
+
+::ng-deep .mat-expansion-panel-header{
+  padding: 0 16px !important;
+  font-size: 16px !important;
+}
+::ng-deep .mat-expansion-panel-body {
+  padding: 0 !important;
+}
+
+.mat-mdc-card-content{
+  padding: 0 !important;
+
+  .mdc-list{
+    padding: 0 !important;
+  }
+}
+
+p{
+  text-align: center;
+  margin-top: 16px;
+}
+
+.color-div-large{
+  position: relative;
+  top: 5px;
 }

@@ -1,1 +1,120 @@
-<p>menu works!</p>
+<div class="menu-buttons">
+  <button appMenuBtn class="mt-3"
+          matTooltip="Categories" matTooltipPosition="before" matTooltipShowDelay="1000"
+          [attr.data-image]="btnUrls.categoryIconUrl"
+          [attr.data-active]="activeTab == MenuOptions.Categories"
+          (click)="tabBtnMenuClick(MenuOptions.Categories);">
+  </button>
+  <button appMenuBtn
+          matTooltip="Filters" matTooltipPosition="before" matTooltipShowDelay="1000"
+          [attr.data-image]="btnUrls.filterIconUrl"
+          [attr.data-active]="activeTab == MenuOptions.Filters"
+          (click)="tabBtnMenuClick(MenuOptions.Filters);">
+  </button>
+  <button appMenuBtn
+          *ngIf='isUserAuthenticated'
+          matTooltip="User Lists" matTooltipPosition="before" matTooltipShowDelay="1000"
+          [attr.data-image]="btnUrls.listIconUrl"
+          [attr.data-active]="activeTab == MenuOptions.Lists"
+          (click)="tabBtnMenuClick(MenuOptions.Lists);">
+  </button>
+
+  <mat-divider *ngIf='isUserAuthenticated && isUserAdmin && isMenuOpened'></mat-divider>
+
+  <button appMenuBtn
+          *ngIf='isUserAuthenticated && isMenuOpened && isUserAdmin'
+          class="mt-3"
+          matTooltip="Add Brick" matTooltipPosition="before" matTooltipShowDelay="1000"
+          [attr.data-image]="btnUrls.addBrickIconUrl"
+          data-active="false"
+          (click)="addBrickMenuClick()">
+  </button>
+
+  <mat-divider *ngIf='isUserAuthenticated && isMenuOpened && ((activeTab==MenuOptions.Categories && isUserAdmin)
+  || activeTab==MenuOptions.Lists)'></mat-divider>
+
+  <button appMenuBtn
+          *ngIf='isUserAuthenticated && isMenuOpened
+          && ((activeTab == MenuOptions.Categories && isUserAdmin) || activeTab==MenuOptions.Lists)'
+          class="mt-3"
+          matTooltip="Add {{activeTab==0 ? 'Category' : 'List'}}" matTooltipPosition="before" matTooltipShowDelay="1000"
+          [attr.data-image]="btnUrls.addIconUrl"
+          data-active="false"
+          (click)="createMenuClick()">
+  </button>
+  <button appMenuBtn
+          *ngIf='isUserAuthenticated && isMenuOpened
+          && ((activeTab==MenuOptions.Categories && selectedCategory.id > 0 && isUserAdmin)
+          || (activeTab==MenuOptions.Lists && selectedList.id > 0))'
+          matTooltip="Edit {{activeTab == MenuOptions.Categories ? 'Category' : 'List'}}"
+          matTooltipPosition="before" matTooltipShowDelay="1000"
+          [attr.data-image]="btnUrls.editIconUrl"
+          data-active="false"
+          (click)="editMenuClick()">
+
+  </button>
+  <button appMenuBtn
+          *ngIf='isUserAuthenticated && isMenuOpened
+          && ((activeTab==MenuOptions.Categories && selectedCategory.id > 0 && isUserAdmin)
+          || (activeTab==MenuOptions.Lists && selectedList.id > 0))'
+          matTooltip="Delete {{activeTab == MenuOptions.Categories ? 'Category' : 'List'}}"
+          matTooltipPosition="before" matTooltipShowDelay="1000"
+          [attr.data-image]="btnUrls.deleteIconUrl"
+          data-active="false"
+          (click)="deleteMenuClick()">
+  </button>
+
+  <mat-divider *ngIf='isUserAuthenticated && isMenuOpened
+  && activeTab==MenuOptions.Lists  && selectedList.id > 0'></mat-divider>
+
+  <button appMenuBtn
+          *ngIf='isUserAuthenticated && isMenuOpened
+          && activeTab==MenuOptions.Lists  && selectedList.id > 0'
+          class="mt-3"
+          matTooltip="Import List" matTooltipPosition="before" matTooltipShowDelay="1000"
+          [attr.data-image]="btnUrls.importIconUrl"
+          data-active="false"
+          (click)="importListMenuClick()">
+
+  </button>
+  <button appMenuBtn
+          *ngIf='isUserAuthenticated && isMenuOpened
+          && activeTab==MenuOptions.Lists  && selectedList.id > 0'
+          matTooltip="Export List" matTooltipPosition="before" matTooltipShowDelay="1000"
+          [attr.data-image]="btnUrls.exportIconUrl"
+          data-active="false"
+          (click)="exportListMenuClick()">
+  </button>
+
+  <button appMenuBtn
+          *ngIf='isUserAuthenticated && isUserDev'
+          style="margin-top: auto"
+          matTooltip="Tests" matTooltipPosition="before" matTooltipShowDelay="1000"
+          [attr.data-image]="btnUrls.testIconUrl"
+          data-active="false"
+          (click)="openDevTabMenuClick()">
+  </button>
+  <button appMenuBtn
+          [style.margin-top]="(isUserAuthenticated && isUserDev)?'5px !important':'auto'"
+          matTooltip="About" matTooltipPosition="before" matTooltipShowDelay="1000"
+          [attr.data-image]="btnUrls.infoIconUrl"
+          data-active="false"
+          (click)="goToAboutMenuClick()">
+  </button>
+  <button appMenuBtn
+          class="mb-3"
+          *ngIf='isUserAuthenticated'
+          matTooltip="Logout" matTooltipPosition="before" matTooltipShowDelay="1000"
+          [attr.data-image]="btnUrls.exitIconUrl"
+          data-active="false"
+          (click)="logoutMenuClick()">
+  </button>
+  <button appMenuBtn
+          class="mb-3"
+          *ngIf='!isUserAuthenticated'
+          matTooltip="Login" matTooltipPosition="before" matTooltipShowDelay="1000"
+          [attr.data-image]="btnUrls.loginIconUrl"
+          data-active="false"
+          (click)="goToLoginMenuClick()">
+  </button>
+</div>

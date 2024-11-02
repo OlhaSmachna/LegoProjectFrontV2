@@ -1,19 +1,16 @@
-import {
-  HttpEvent,
-  HttpHandler,
-  HttpInterceptor,
-  HttpRequest,
-  HttpResponse,
-} from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {Observable, tap} from "rxjs";
 import {LogService} from "../tools/log-service";
-import {SeriersChildModel} from "../../../dev-dialog/data";
+import {SeriesChildModel} from "../../../dev-dialog/data";
+import {BackendAddress} from "../api/BackendAddress";
 
 @Injectable()
-export class TimeLogInterceptor implements HttpInterceptor {
-  private apisToTraceRequestTime: Array<string> = ['http://localhost:52859/lego_project_api'];
-  constructor(private logService: LogService) {}
+export class HttpLogInterceptor implements HttpInterceptor {
+  private apisToTraceRequestTime: Array<string> = [];
+  constructor(private logService: LogService, private backend: BackendAddress) {
+    this.apisToTraceRequestTime.push(backend.get())
+  }
 
   public intercept(
     req: HttpRequest<any>,
@@ -48,36 +45,16 @@ export class TimeLogInterceptor implements HttpInterceptor {
     const endTime: Date = new Date();
     const duration: number = (endTime.valueOf() - startTime.valueOf()) / 1000;
 
-    /**
-     * If you want you can add a threshold here to only log requests if they are slower than X seconds
-     *
-     * if (duration < 1) {
-     *  return;
-     * }
-     */
-
-    /**
-     * This is just an example, feel free to add/replace any meta information you need
-     */
-
-    /*const dataToLog: Record<string, number | string> = {
-      duration,
-      params: request.params.toString(),
+    let logItem: SeriesChildModel = {
       method: request.method,
-      requestUrl: request.url,
-      // this is useful in cases of redirects
-      responseUrl: response.url!,
-    };*/
-    //console.log(duration);
-
-    let logItem: SeriersChildModel = {
       value: duration,
-      params: request.params.toString(),
-      method: request.method,
-      name: request.url,
-      responseUrl: response.url!
+      name: 0,
+      extra: {
+        requestUrl: request.url,
+        responseUrl: response.url!,
+        params: request.params.toString()
+      }
     };
     this.logService.log(logItem);
-    //console.log(logItem)
   }
 }

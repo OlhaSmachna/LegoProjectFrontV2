@@ -1,1 +1,54 @@
-<p>about works!</p>
+<div class="nav-container">
+  <a [routerLink]="['/bricks_manager/bricks']" class="back-link">Back to Bricks</a>
+</div>
+
+<div class="container-md">
+  <div class="row">
+    <div class="about col">
+      <div class="logo-container mt-4 mb-3">
+        <img alt="app-logo" src="assets/icons/lego.png">
+        <h1>BricksManager 2.0</h1>
+      </div>
+      <p class="large-txt">
+        Hi! My name is Olga Smachna, and this is my diploma project for IT Step Computer Academy.
+        It presents a solution for a Lego-themed database management system featuring a backend
+        .NET CORE API service and a frontend Angular web app.
+        The project received some important changes since its previous desktop version: improved database structure,
+        better query logic and cloud storage for images, resulting in a significantly improved performance.
+      </p>
+      <p class="large-txt">
+        Lego BricksManager allows you to browse the Lego parts database as a guest user or create
+        and manage your own inventory under a signed-in account.
+        It also allows you to export and import inventory lists in XML format supported by other major
+        Lego building applications and online shops.
+        And of course, you can edit database records under an account with an admin role.
+      </p>
+      <p class="git-link">
+        If you interested to see more of my projects visit my <a href="https://github.com/OlgaS123?tab=repositories" target="_blank">GitHub</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="credits col">
+      <h1 class="mt-3 mb-4">Credits</h1>
+      <p>
+        <a href="https://rebrickable.com/downloads/" target="_blank">
+         <img alt="rebrickable-logo" src="assets/images/rebrickable.png"> - <span>.csv LEGO database download</span>
+        </a>
+      </p>
+      <p>
+        <a href="https://www.ldraw.org/" target="_blank">
+          <img alt="ldraw-logo" src="assets/images/ldraw.png"> - <span>generated LEGO bricks images</span>
+        </a>
+      </p>
+      <p>
+        <a href="https://www.flaticon.com/authors/smashicons" target="_blank">
+          <img alt="flaticon-logo" src="assets/images/flaticon.png"> - <span>icons & UI elements by Smashicons</span>
+        </a>
+      </p>
+    </div>
+  </div>
+</div>
+
+

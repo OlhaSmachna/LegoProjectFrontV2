@@ -1,36 +1,39 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {CategoryDto} from "../models/DTOs/Category/category.dto";
+import {CategoryDto} from "../../DTOs/Category/category.dto";
 @Injectable({
   providedIn: 'root'
 })
 export class CategoriesEventsService {
-  private selectedCategory = new BehaviorSubject<CategoryDto>({id: 0, name: ''});
-  private createdCategory = new Subject<CategoryDto>();
-  private updatedCategory = new Subject<CategoryDto>();
-  private deletedCategory = new Subject<number>();
-  sendSelectCategoryEvent(selectedCategory:CategoryDto) {
+  private selectedCategory: BehaviorSubject<CategoryDto> = new BehaviorSubject<CategoryDto>({id: -1, name: ''});
+  private createdCategory: Subject<CategoryDto> = new Subject<CategoryDto>();
+  private updatedCategory: Subject<CategoryDto> = new Subject<CategoryDto>();
+  private deletedCategoryId: Subject<number> = new Subject<number>();
+  public sendSelectCategoryEvent(selectedCategory: CategoryDto) {
     this.selectedCategory.next(selectedCategory);
   }
-  getSelectCategoryEvent(): Observable<CategoryDto>{
+  public unselect(): void {
+    this.selectedCategory.next({id: -1, name: ''});
+  }
+  public getSelectCategoryEvent(): Observable<CategoryDto>{
     return this.selectedCategory.asObservable();
   }
-  sendCategoryCreatedEvent(createdCategory:CategoryDto) {
+  public sendCategoryCreatedEvent(createdCategory:CategoryDto) {
     this.createdCategory.next(createdCategory);
   }
-  getCategoryCreatedEvent(): Observable<CategoryDto>{
+  public getCategoryCreatedEvent(): Observable<CategoryDto>{
     return this.createdCategory.asObservable();
   }
-  sendCategoryUpdatedEvent(updatedCategory:CategoryDto) {
+  public sendCategoryUpdatedEvent(updatedCategory:CategoryDto) {
     this.updatedCategory.next(updatedCategory);
   }
-  getCategoryUpdatedEvent(): Observable<CategoryDto>{
+  public getCategoryUpdatedEvent(): Observable<CategoryDto>{
     return this.updatedCategory.asObservable();
   }
-  sendCategoryDeletedEvent(deletedCategoryID:number) {
-    this.deletedCategory.next(deletedCategoryID);
+  public sendCategoryDeletedEvent(deletedCategoryID:number) {
+    this.deletedCategoryId.next(deletedCategoryID);
   }
-  getCategoryDeletedEvent(): Observable<number>{
-    return this.deletedCategory.asObservable();
+  public getCategoryDeletedEvent(): Observable<number>{
+    return this.deletedCategoryId.asObservable();
   }
 }

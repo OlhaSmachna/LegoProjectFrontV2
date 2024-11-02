@@ -3,19 +3,27 @@
   padding: 10px;
   align-items: center;
 }
+
 img {
   width: 40px;
-  margin-left: 20px;
+  margin-left: 14px;
 }
+
 ::ng-deep .mdc-snackbar__surface {
-  background-color: #E8EDFC !important;
+  background-color: var(--grey-bg-light) !important;
 }
+
 ::ng-deep .mat-mdc-snack-bar-label{
-  color: black !important;
+  color: var(--black) !important;
 }
+
 ::ng-deep .mat-mdc-snack-bar-action{
-  color: black !important;
+  color: var(--black) !important;
+  background: none !important;
+  border: none !important;
+  text-decoration: underline !important;
+
   &:hover{
-    color: #0d6efd !important;
+    color: var(--blue-active) !important;
   }
 }

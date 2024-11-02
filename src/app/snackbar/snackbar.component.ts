@@ -1,20 +1,20 @@
 import {Component, inject, Inject} from '@angular/core';
 import {MAT_SNACK_BAR_DATA, MatSnackBarRef} from "@angular/material/snack-bar";
-import {ResponseTypes} from "../shared/services/tools/http-response-handler";
+import {ResponseTypes} from "../shared/services/tools/response-handler";
 export interface SnackData {
   message: string;
   responseType: ResponseTypes;
 }
 @Component({
-  selector: 'app-error-snack',
-  templateUrl: './error-snack.component.html',
-  styleUrls: ['./error-snack.component.scss']
+  selector: 'app-snackbar',
+  templateUrl: './snackbar.component.html',
+  styleUrls: ['./snackbar.component.scss']
 })
-export class ErrorSnackComponent {
+export class SnackbarComponent {
   public message: string;
   public iconUrl: string;
+  public snackBarRef: MatSnackBarRef<any> = inject(MatSnackBarRef);
 
-  snackBarRef = inject(MatSnackBarRef);
   constructor(@Inject(MAT_SNACK_BAR_DATA) public data: SnackData) {
     this.message = data.message;
     switch (data.responseType){

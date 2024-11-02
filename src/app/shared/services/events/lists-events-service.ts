@@ -1,36 +1,55 @@
 import {Injectable} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
-import {ListDto} from "../models/DTOs/List/list.dto";
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {ListDto} from "../../DTOs/List/list.dto";
+import {BrickListDto} from "../../DTOs/Brick/brick-list.dto";
 @Injectable({
   providedIn: 'root'
 })
 export class ListsEventsService {
-  private selectedList = new Subject<ListDto>();
-  private createdList = new Subject<ListDto>();
-  private updatedList = new Subject<ListDto>();
-  private deletedList = new Subject<number>();
-  sendSelectListEvent(selectedList:ListDto) {
+  private selectedList: BehaviorSubject<ListDto> = new BehaviorSubject<ListDto>({id: -1, name: '', uniqueCount: 0});
+  private createdList: Subject<ListDto> = new Subject<ListDto>();
+  private updatedList: Subject<ListDto> = new Subject<ListDto>();
+  private deletedListId: Subject<number> = new Subject<number>();
+  private changed: Subject<boolean> = new Subject<boolean>();
+  private added: Subject<boolean> = new Subject<boolean>();
+  public sendSelectListEvent(selectedList: ListDto) {
     this.selectedList.next(selectedList);
   }
-  getSelectListEvent(): Observable<ListDto>{
+  public unselect(): void{
+    this.selectedList.next({id: -1, name: '', uniqueCount: 0});
+  }
+  public getSelectListEvent(): Observable<ListDto>{
     return this.selectedList.asObservable();
   }
-  sendListCreatedEvent(createdList:ListDto) {
+  public sendListCreatedEvent(createdList:ListDto) {
     this.createdList.next(createdList);
   }
-  getListCreatedEvent(): Observable<ListDto>{
+  public getListCreatedEvent(): Observable<ListDto>{
     return this.createdList.asObservable();
   }
-  sendListUpdatedEvent(updatedList:ListDto) {
+  public sendListUpdatedEvent(updatedList:ListDto) {
     this.updatedList.next(updatedList);
   }
-  getListUpdatedEvent(): Observable<ListDto>{
+  public getListUpdatedEvent(): Observable<ListDto>{
     return this.updatedList.asObservable();
   }
-  sendListDeletedEvent(deletedListID:number) {
-    this.deletedList.next(deletedListID);
+  public sendListDeletedEvent(deletedListID:number) {
+    this.deletedListId.next(deletedListID);
   }
-  getListDeletedEvent(): Observable<number>{
-    return this.deletedList.asObservable();
+  public getListDeletedEvent(): Observable<number>{
+    return this.deletedListId.asObservable();
+  }
+
+  public sendChangesInListEvent() {
+    this.changed.next(true);
+  }
+  public getChangesInListEvent(): Observable<boolean>{
+    return this.changed.asObservable();
+  }
+  public sendAddedToListListEvent() {
+    this.added.next(true);
+  }
+  public getAddedToListListEvent(): Observable<boolean>{
+    return this.added.asObservable();
   }
 }

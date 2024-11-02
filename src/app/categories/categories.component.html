@@ -1,1 +1,16 @@
-<p>categories works!</p>
+<div *ngIf="isLoading" class="loading">
+  <div class="loader">Loading...</div>
+  <p>Connecting to server.<br>Please wait.</p>
+</div>
+
+<mat-action-list *ngIf="!isLoading">
+  <button mat-list-item [ngClass]="selectedCategory.id == 0 ? 'category-selected' : ''"
+          (click)="selectCategory(emptyCategory);">
+    <b>Browse All Bricks</b>
+  </button>
+  <button *ngFor="let category of categories" mat-list-item
+          [ngClass]="selectedCategory.id == category.id ? 'category-selected' : ''"
+          (click)="selectCategory(category);">
+    {{category.name}}
+  </button>
+</mat-action-list>

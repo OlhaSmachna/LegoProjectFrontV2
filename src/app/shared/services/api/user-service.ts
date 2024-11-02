@@ -1,34 +1,50 @@
-import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {AuthRequestUserDto} from "../../models/DTOs/User/auth_request_user_dto";
-import {AuthResponseUserDto} from "../../models/DTOs/User/auth_response_user_dto";
-import {RegRequestUserDto} from "../../models/DTOs/User/reg_request_user_dto";
-import {RegResponseUserDto} from "../../models/DTOs/User/reg_response_user_dto";
-import {BehaviorSubject, Observable, Subject} from "rxjs";
-import {ApiServiceResponse} from "../../models/DTOs/api_service_response";
+import {Injectable} from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import {LoginRequestUserDto} from "../../DTOs/User/login-request-user.dto";
+import {AddRequestUserDto} from "../../DTOs/User/add-request-user.dto";
+import {Observable, Subscriber} from "rxjs";
+import {ApiServiceResponse} from "../../DTOs/api-service-response";
+import {TokenService} from "../tools/token-service";
+import {RefreshTokenRequestUserDto} from "../../DTOs/User/refresh-token-request-user.dto";
+import {BackendAddress} from "./BackendAddress";
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  RegisterURL:string='http://localhost:52859/lego_project_api/Users';
-  LoginURL:string='http://localhost:52859/lego_project_api/Users/Login';
-  private authState = new BehaviorSubject<boolean>(false)
-  constructor(private client: HttpClient) { }
-  public register(user:RegRequestUserDto) {
+  private readonly RegisterURL: string = '/Users';
+  private readonly LoginURL: string = '/Users/Login';
+  private readonly RefreshURL: string = '/Users/Refresh';
+
+  constructor(
+    private client: HttpClient,
+    private tokenService: TokenService,
+    private backend: BackendAddress) {
+    this.RegisterURL = backend.get() + this.RegisterURL;
+    this.LoginURL = backend.get() + this.LoginURL;
+    this.RefreshURL = backend.get() + this.RefreshURL;
+  }
+
+  public register(user:AddRequestUserDto):Observable<ApiServiceResponse> {
     return this.client.post<ApiServiceResponse>(this.RegisterURL,user);
   }
-  public login(user:AuthRequestUserDto){
+
+  public login(user:LoginRequestUserDto):Observable<ApiServiceResponse>{
     return this.client.post<ApiServiceResponse>(this.LoginURL,user);
   }
-  public logout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    this.sendAuthStateChangeNotification(false);
-  }
-  public sendAuthStateChangeNotification = (isAuthenticated: boolean) => {
-    this.authState.next(isAuthenticated);
-  }
-  getAuthStateChangeNotification(): Observable<any>{
-    return this.authState.asObservable();
+
+  public tryRefreshTokens():Observable<ApiServiceResponse>{
+    if(this.tokenService.refreshTokenIsValid())
+    {
+      const refreshTokenRequestUserDto: RefreshTokenRequestUserDto = {
+        email: localStorage.getItem('user')??'',
+        token: localStorage.getItem('token')??'',
+        refreshToken: localStorage.getItem('refreshToken')??''
+      }
+      return this.client.post<ApiServiceResponse>(this.RefreshURL, refreshTokenRequestUserDto);
+    }
+    else{
+      return new Observable<ApiServiceResponse>((subscriber: Subscriber<ApiServiceResponse>) =>
+        subscriber.next(this.tokenService.missingTokenResponse));
+    }
   }
 }

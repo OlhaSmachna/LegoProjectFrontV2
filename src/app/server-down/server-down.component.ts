@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-server-down',
   templateUrl: './server-down.component.html',
-  styleUrls: ['./server-down.component.css']
+  styleUrls: ['./server-down.component.scss']
 })
 export class ServerDownComponent {
 

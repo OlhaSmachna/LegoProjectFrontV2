@@ -1,29 +1,35 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
-import {RoleDto, UserRoles} from "../models/DTOs/Role/role.dto";
+import {UserRoles} from "../../DTOs/Role/role.dto";
+import {LoginResponseUserDto} from "../../DTOs/User/login-response-user.dto";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserEventsService {
-  private authState = new BehaviorSubject<boolean>(false);
-  private role = new BehaviorSubject<UserRoles>(UserRoles.USER);
-  public logout(): void{
+  private authState: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private role: BehaviorSubject<UserRoles> = new BehaviorSubject<UserRoles>(UserRoles.USER);
+
+  public sendLogoutNotification(): void{
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    this.sendAuthStateChangeNotification(false);
+    localStorage.removeItem("refreshToken");
+    this.authState.next(false);
   }
-  public sendAuthStateChangeNotification = (isAuthenticated: boolean) => {
-    this.authState.next(isAuthenticated);
+
+  public sendSuccessfulLoginNotification(loginResponse: LoginResponseUserDto){
+    localStorage.setItem("user", loginResponse.email);
+    localStorage.setItem("token", loginResponse.token);
+    localStorage.setItem("refreshToken", loginResponse.refreshToken);
+    this.authState.next(true);
+    this.role.next(loginResponse.role.name as UserRoles);
   }
-  getAuthStateChangeNotification(): Observable<boolean>{
+
+  public getAuthStateChangeNotification(): Observable<boolean>{
     return this.authState.asObservable();
   }
 
-  public sendRoleChangeNotification = (role: RoleDto) => {
-    this.role.next(role.name as UserRoles);
-  }
-  getRoleChangeNotification(): Observable<UserRoles>{
+  public getRoleChangeNotification(): Observable<UserRoles>{
     return this.role.asObservable();
   }
 }

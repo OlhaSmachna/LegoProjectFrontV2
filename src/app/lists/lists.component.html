@@ -1,1 +1,18 @@
-<p>lists works!</p>
+<div *ngIf="isLoading" class="loading">
+  <div class="loader">Loading...</div>
+  <p>Connecting to server.<br>Please wait.</p>
+</div>
+
+<mat-action-list  *ngIf="!isLoading" class="lists">
+  <button *ngFor="let list of lists" mat-list-item
+          [ngClass]="selectedList.id == list.id ? 'list-selected' : ''"
+          (click)="selectList(list);">
+    <div>{{list.name}}</div>
+    <div matTooltip="Unique Bricks" matTooltipPosition="before" matTooltipShowDelay="1000">
+      <!--Separated weirdly because browser doesnt want to interpret space characters correctly-->
+      <span class="visible-750">(</span>{{list.uniqueCount}}<span class="hidden-750">&nbsp;<img *ngIf="list.uniqueCount != 0"
+      class="search-result-img" src="assets/icons-active/result.png" alt="search results"><img *ngIf="list.uniqueCount == 0"
+      class="search-result-img" src="assets/icons/result.png" alt="search results"></span><span class="visible-750">)</span>
+    </div>
+  </button>
+</mat-action-list>

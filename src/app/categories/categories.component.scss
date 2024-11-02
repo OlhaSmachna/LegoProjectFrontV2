@@ -1,3 +1,17 @@
 .category-selected{
   background-color: var(--grey-bg-light);
 }
+::ng-deep .mat-ripple-element {
+  background-color: var(--grey-bg-light) !important;
+  z-index: 1 !important;
+}
+::ng-deep .mat-mdc-list-item-interactive:focus::before {
+  opacity: 0 !important;
+}
+::ng-deep button span.mdc-list-item__content{
+  z-index: 2 !important;
+}
+
+
+
+

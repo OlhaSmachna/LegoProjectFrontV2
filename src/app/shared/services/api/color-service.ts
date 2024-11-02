@@ -1,14 +1,23 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {Observable} from "rxjs";
-import {ApiServiceResponse} from "../../models/DTOs/api-service-response";
+import {ApiServiceResponse} from "../../DTOs/api-service-response";
+import {BackendAddress} from "./BackendAddress";
 @Injectable({
   providedIn: 'root'
 })
-export class MaterialService {
-  MaterialsURL: string='http://localhost:52859/lego_project_api/Materials';
-  constructor(private client: HttpClient) {}
-  public getMaterials():Observable<ApiServiceResponse> {
-    return this.client.get<ApiServiceResponse>(this.MaterialsURL);
+export class ColorService {
+  private readonly ColorsURL: string = '/Colors';
+  private readonly ColorsByBrickURL: string = '/ByBrick/';
+  constructor(private client: HttpClient,
+              private backend: BackendAddress) {
+    this.ColorsURL = backend.get() + this.ColorsURL;
+    this.ColorsByBrickURL = this.ColorsURL + this.ColorsByBrickURL;
+  }
+  public getColors():Observable<ApiServiceResponse> {
+    return this.client.get<ApiServiceResponse>(this.ColorsURL);
+  }
+  public getColorsByBrick(brickId: string):Observable<ApiServiceResponse> {
+    return this.client.get<ApiServiceResponse>(this.ColorsByBrickURL + brickId);
   }
 }

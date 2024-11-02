@@ -1,1 +1,10 @@
-<p>confirm-delete-dialog works!</p>
+<h1 mat-dialog-title><img src="assets/icons/lego.png" alt="logo">BricksManager 2.0</h1>
+<mat-divider></mat-divider>
+<div mat-dialog-content>
+  <p>You want to <b class="dialog-highlight-red">delete</b> {{data.deleteOption}}:
+    <b class="dialog-highlight-black">{{data.name}}</b>?</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button class="confirm-btn" (click)="delete()">Confirm</button>
+  <button mat-button class="cancel-btn" [mat-dialog-close]="false" cdkFocusInitial>Cancel</button>
+</div>

@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import {ApiServiceResponse} from "../../models/DTOs/api-service-response";
-import {HttpHeaders} from "@angular/common/http";
+import {Injectable} from '@angular/core';
+import {ApiServiceResponse} from "../../DTOs/api-service-response";
+import { HttpHeaders } from "@angular/common/http";
 @Injectable({
   providedIn: 'root'
 })
-export class TokenCheckService {
+export class TokenService {
   public missingTokenResponse: ApiServiceResponse = {
     isSuccessful: false,
     resultMessage: 'Token is missing. Please relogin.',

@@ -1,1 +1,42 @@
-<p>login works!</p>
+<div class="flex-container d-flex align-items-center justify-content-center">
+
+  <form class="needs-validation">
+  <div class="container">
+
+    <div class="row logo-container mb-4">
+      <img class="col-4" alt="app-logo" src="assets/icons/lego.png">
+      <h1 class="col-8">BricksManager 2.0</h1>
+    </div>
+
+    <div class="row mb-3">
+      <label for="inputEmail" class="col-md-4 col-sm-12 col-form-label">Email</label>
+      <div class="col-md-8 col-sm-12">
+        <div class="input-group has-validation">
+          <input [(ngModel)]="email" type="email" class="form-control" [ngClass]="!emailValid ? 'is-invalid' : ''"
+                 id="inputEmail" name="inputEmail" required (keydown.enter)="password == '' ? inputPassword.select() : login()">
+          <div *ngIf="!emailValid" class="invalid-feedback">{{invalidEmailMessage}}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <label for="inputPassword" class="col-md-4 col-sm-12 col-form-label">Password</label>
+      <div class="col-md-8 col-sm-12">
+        <div class="input-group has-validation">
+          <input #inputPassword [(ngModel)]="password" type="password" class="form-control" [ngClass]="!passwordValid ? 'is-invalid' : ''"
+                 id="inputPassword" name="inputPassword" required (keydown.enter)="login()">
+          <div *ngIf="!passwordValid" class="invalid-feedback">{{invalidPasswordMessage}}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col text-center login-links">
+        <span class="fake-link" (click)="login()">Login</span>, <a href="bricks_manager/register">Register</a> or
+        <span class="fake-link" (click)="guest()">Continue as Guest</span>
+      </div>
+    </div>
+
+  </div>
+  </form>
+</div>

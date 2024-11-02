@@ -1,25 +1,16 @@
 <div>
   <mat-sidenav-container hasBackdrop=false>
-    <mat-sidenav #sidenav mode="side" position="end" opened class="col-3">
-      <app-categories></app-categories>
+    <mat-sidenav #sidenav
+                 [class]="isMenuOpened ? 'sidenav-full' : ''"
+                 mode="side" position="end" opened class="col-3">
+      <app-categories *ngIf="activeTab == MenuOptions.Categories"></app-categories>
+      <app-filters *ngIf="activeTab == MenuOptions.Filters"></app-filters>
+      <app-lists *ngIf="activeTab == MenuOptions.Lists && isUserAuthenticated"></app-lists>
     </mat-sidenav>
 
-    <mat-sidenav-content>
-      <app-table style="display: contents"></app-table>
-
-      <div class="menu-buttons" style="display: flex; flex-direction: column; height: 100vh;">
-        <button class="mt-3" matTooltip="Categories" matTooltipPosition="before" [style.background-image]="'url('+btnUrls.getCategoryIconUrl()+')'" (click)="sidenav.toggle(); categoriesMenuOpen();"></button>
-        <button class="mb-3"matTooltip="Filters" matTooltipPosition="before" [style.background-image]="'url('+btnUrls.getFilterIconUrl()+')'"></button>
-        <mat-divider *ngIf='isCategoriesOpened'></mat-divider>
-        <button *ngIf='isCategoriesOpened' class="mt-3" matTooltip="New" matTooltipPosition="before" [style.background-image]="'url('+btnUrls.getAddIconUrl()+')'"></button>
-        <button *ngIf='isCategoriesOpened && isCategorySelected' matTooltip="Edit" matTooltipPosition="before" [style.background-image]="'url('+btnUrls.getEditIconUrl()+')'"></button>
-        <button *ngIf='isCategoriesOpened && isCategorySelected' matTooltip="Delete" matTooltipPosition="before" [style.background-image]="'url('+btnUrls.getDeleteIconUrl()+')'"></button>
-
-        <button *ngIf='isUserAuthenticated' matTooltip="User Lists" matTooltipPosition="before" [style.background-image]="'url('+btnUrls.getListIconUrl()+')'"></button>
-        <button style="margin-top: auto" matTooltip="About" matTooltipPosition="before" [style.background-image]="'url('+btnUrls.getInfoIconUrl()+')'"></button>
-        <button class="mb-3" *ngIf='isUserAuthenticated' matTooltip="Logout" matTooltipPosition="before" [style.background-image]="'url('+btnUrls.getExitIconUrl()+')'" (click)="logoutBtnClick()"></button>
-        <button class="mb-3" *ngIf='!isUserAuthenticated' matTooltip="Login" matTooltipPosition="before" [style.background-image]="'url('+btnUrls.getLoginIconUrl()+')'" (click)="goToLoginBtnClick()"></button>
-      </div>
+    <mat-sidenav-content [class]="isMenuOpened ? 'hide-table-parent' : ''">
+      <app-table [class]="isMenuOpened ? 'hide-table' : ''"></app-table>
+      <app-menu></app-menu>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

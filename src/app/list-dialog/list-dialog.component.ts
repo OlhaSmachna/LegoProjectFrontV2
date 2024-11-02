@@ -1,42 +1,72 @@
 import {Component, Inject} from '@angular/core';
-import {CategoryDto} from "../shared/models/DTOs/Category/category.dto";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {ListService} from "../shared/services/api/list-service";
+import {ListsEventsService} from "../shared/services/events/lists-events-service";
+import {ResponseHandler} from "../shared/services/tools/response-handler";
+import { HttpErrorResponse } from "@angular/common/http";
 import {ValidationService} from "../shared/services/tools/validation-service";
-export interface CategoryDialogData {
-  category: CategoryDto;
+import {ListDto} from "../shared/DTOs/List/list.dto";
+export interface ListDialogData {
+  list: ListDto;
+  isNew: boolean;
 }
 @Component({
-  selector: 'app-category-dialog',
-  templateUrl: './category-dialog.component.html',
-  styleUrls: ['./category-dialog.component.scss']
+  selector: 'app-list-dialog',
+  templateUrl: './list-dialog.component.html',
+  styleUrls: ['./list-dialog.component.scss']
 })
-export class CategoryDialogComponent {
-  public categoryName: string = '';
-  public categoryNameValid: boolean = true;
-  public invalidCategoryNameMessage: string = '';
+export class ListDialogComponent {
+  public listName: string = 'New List';
+  public listNameValid: boolean = true;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: CategoryDialogData,
+    @Inject(MAT_DIALOG_DATA) public data: ListDialogData,
+    private dialogRef: MatDialogRef<ListDialogComponent>,
+    private listService: ListService,
+    private listsEventsService: ListsEventsService,
     private validationService: ValidationService,
-    public dialogRef: MatDialogRef<CategoryDialogComponent>
+    private responseHandler: ResponseHandler
     ) {
-    if(this.data.category.id != 0){
-      this.categoryName = this.data.category.name;
-    }
+    if(this.data.list.name != '') this.listName = this.data.list.name;
   }
 
-  saveCategory() {
-    if(this.validationService.notEmptyOrSpaces(this.categoryName))
-    {
-      this.categoryNameValid = true;
-    }
-    else {
-      this.categoryNameValid = false;
-      this.invalidCategoryNameMessage = 'This field is required';
-    }
-    if(this.categoryNameValid){
-      this.data.category.name = this.categoryName;
-      this.dialogRef.close(this.data.category);
+  public saveList(): void {
+    this.listNameValid = this.validationService.notEmptyOrSpaces(this.listName);
+    if(this.listNameValid) {
+      this.data.list.name = this.listName;
+      if(this.data.isNew) {
+        this.listService.createList(this.data.list)
+          .subscribe({
+            next: (response) => {
+              if(response.isSuccessful) {
+                this.listsEventsService.sendListCreatedEvent(response.result);
+                this.responseHandler.serverResponse(response);
+                this.dialogRef.close();
+              }
+              else this.responseHandler.errorFromServerResponse(response);
+            },
+            error: (err: HttpErrorResponse) => {
+              this.responseHandler.serverNotRespondingError(err);
+            }})
+      }
+      else {
+        this.listService.editList(this.data.list)
+          .subscribe({
+            next: (response) => {
+              if(response.isSuccessful) {
+                this.listsEventsService.sendListUpdatedEvent(response.result);
+                this.responseHandler.serverResponse(response);
+                this.dialogRef.close();
+              }
+              else {
+                this.responseHandler.errorFromServerResponse(response);
+                if(!response.errorMessage) this.dialogRef.close();
+              }
+            },
+            error: (err: HttpErrorResponse) => {
+              this.responseHandler.serverNotRespondingError(err);
+            }})
+      }
     }
   }
 }

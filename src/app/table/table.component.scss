@@ -1,0 +1,305 @@
+//HEADER WITH SEARCH && PAGINATOR && PROGRESS BAR==========================================================
+.table-top{
+  width: 100%;
+
+  .table-info-container{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+
+    .search-container{
+      display: flex;
+      align-items: center;
+
+      ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+        padding-top: 3px !important;
+        padding-bottom: 0 !important;
+      }
+
+      button{
+        border: none;
+        width: 30px;
+        min-width: 30px;
+        height: 30px;
+        background-image: url("../../assets/icons/search.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-color: transparent;
+        margin-left: 5px;
+
+        &:hover{
+          background-image: url("../../assets/icons-active/search.png");
+        }
+      }
+    }
+
+    .paginator-container{
+      display: flex;
+      align-items: center;
+
+      button{
+        border: none;
+        width: 24px;
+        height: 24px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-color: transparent;
+        margin: 0 5px;
+      }
+    }
+
+    .search-results-container{
+      display: flex;
+      align-items: center;
+
+      span{
+        margin-right: 3px;
+      }
+
+      .search-result-img{
+        width: 20px;
+        height: 20px;
+        margin-left: 3px;
+      }
+    }
+  }
+
+  #prev{
+    background-image: url("../../assets/icons/prev.png");
+    cursor: default;
+
+    &.active:hover{
+      cursor: pointer;
+      background-image: url("../../assets/icons-active/prev.png");
+    }
+  }
+
+  #next{
+    background-image: url("../../assets/icons/next.png");
+    cursor: default;
+
+    &.active:hover{
+      cursor: pointer;
+      background-image: url("../../assets/icons-active/next.png");
+    }
+  }
+}
+
+//TABLE  CONTAINER=========================================================================================
+.table-container{
+  overflow-y: scroll;
+  flex: 1;
+  background-color: var(--grey-bg-body);
+  background-size: 80%;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  &.has-bg{
+    background-image: url("../../assets/images/chars/bg.png");
+  }
+
+  p{
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+    color: var(--grey-text);
+  }
+}
+
+//============================================ T A B L E ==================================================
+::ng-deep table{
+  flex: 1;
+
+  thead{
+    th{
+      font-size: 16px !important;
+      text-align: center !important;
+      cursor: pointer !important;
+      &:hover{
+        color: var(--blue-active) !important;
+      }
+      .mat-sort-header-container{
+        justify-content: center;
+      }
+    }
+  }
+
+  tbody{
+    tr{
+      height: fit-content !important;
+
+      &:nth-child(4n+4), &:nth-child(4n+3){
+        background-color: var(--grey-table-even);
+      }
+      &:nth-child(odd){
+        td{
+          padding: 5px 16px !important;
+        }
+        &:hover{
+          background-color: var(--grey-bg-light) !important;
+        }
+      }
+      &:nth-child(4n+4):hover{
+        background-color: var(--grey-table-even) !important;
+      }
+      td{
+        &.mat-column-image{
+          width: 70px;
+        }
+
+        .brick-img{
+          width: 70px;
+        }
+
+        .brick-noimg{
+          width: 60px;
+          height: 60px;
+          margin: 5px;
+          background-image: url("../../assets/icons/result.png");
+          background-size: contain;
+          background-repeat: no-repeat;
+          text-align: center;
+          line-height: 60px;
+          font-size: 45px;
+          font-weight: bold;
+          user-select: none;
+        }
+
+        .table-cell-btn-container{
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+
+          .table-cell-btn-col{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+
+            .table-btn{
+              border: none;
+              background-size: contain;
+              background-repeat: no-repeat;
+              background-position: center;
+              background-color: transparent;
+              margin: 5px;
+
+              &.btn-user{
+                width: 30px;
+                height: 30px;
+              }
+              &.btn-admin{
+                width: 25px;
+                height: 25px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+//EXPANDED ROW=============================================================================================
+.expanded{
+  height: fit-content;
+  border: none !important;
+  padding: 0 !important;
+
+  .element-detail{
+    overflow: hidden;
+    border-bottom-style: solid;
+    border-bottom-color: rgba(0, 0, 0, 0.12);
+
+    ::ng-deep .mat-mdc-tab-body-content{
+      padding: 8px 16px;
+      display: flex;
+      flex-direction: column;
+      row-gap: 7px;
+
+      .form-row{
+        display: flex;
+        flex-direction: row;
+        column-gap: 10px;
+        justify-content: center;
+
+        &.adjusted{
+          justify-content: space-between;
+          padding: 10px;
+          gap: 20px;
+        }
+
+        .form-group{
+          flex-grow: 1;
+
+          &.adjusted{
+            display: flex;
+            align-items: flex-end;
+
+            &:first-child{
+              justify-content: flex-end;
+            }
+
+            label{
+              max-width: min-content;
+              margin-right: 15px;
+            }
+          }
+
+          .mat-mdc-form-field{
+            width: 150px !important;
+            display: block;
+            border-color: var(--bs-border-color);
+
+            ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+              padding-top: 7px !important;
+              padding-bottom: 7px !important;
+              min-height: 38px !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.default-option{
+  justify-content: center;
+  font-style: italic;
+}
+
+::ng-deep .mat-mdc-form-field-infix{
+  height: 30px;
+  min-height: 30px;
+  max-height: 30px;
+}
+::ng-deep .mat-mdc-form-field-subscript-wrapper{
+  display: none;
+}
+
+::ng-deep .mat-mdc-select-panel{
+  position: relative !important;
+  left: -13px !important;
+  top: 5px !important;
+}
+
+//RESPONSIVE LAYOUT ADJUSTMENTS====================
+@media only screen and (max-width: 750px) {
+  .form-row {
+    flex-direction: column !important;
+  }
+  td .mat-mdc-form-field {
+    min-width: 100% !important;
+  }
+}
+@media only screen and (max-width: 650px) {
+  .paginator-container{
+    margin-left: auto;
+  }
+}
+
+
+
+

@@ -1,40 +1,24 @@
-import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {CategoryDto} from "../../models/DTOs/Category/category.dto";
-import {ListsEventsService} from "./lists-events-service";
+import {Injectable} from '@angular/core';
+import {Observable, Subject} from 'rxjs';
+import {BrickDto} from "../../DTOs/Brick/brick.dto";
 @Injectable({
   providedIn: 'root'
 })
-export class CategoriesEventsService {
-  private selectedCategory = new BehaviorSubject<CategoryDto>({id: -1, name: ''});
-  private createdCategory = new Subject<CategoryDto>();
-  private updatedCategory = new Subject<CategoryDto>();
-  private deletedCategoryId = new Subject<number>();
-  sendSelectCategoryEvent(selectedCategory: CategoryDto) {
-    this.selectedCategory.next(selectedCategory);
+export class BricksEventsService {
+  private updatedBrick: Subject<BrickDto> = new Subject<BrickDto>();
+  private deletedBrickId: Subject<string> = new Subject<string>();
+
+  public sendBrickUpdatedEvent(updatedBrick: BrickDto) {
+    this.updatedBrick.next(updatedBrick);
   }
-  unselect() {
-    this.selectedCategory.next({id: -1, name: ''});
+  public getBrickUpdatedEvent(): Observable<BrickDto> {
+    return this.updatedBrick.asObservable();
   }
-  getSelectCategoryEvent(): Observable<CategoryDto>{
-    return this.selectedCategory.asObservable();
+
+  public sendBrickDeletedEvent(deletedBrickID: string) {
+    this.deletedBrickId.next(deletedBrickID);
   }
-  sendCategoryCreatedEvent(createdCategory:CategoryDto) {
-    this.createdCategory.next(createdCategory);
-  }
-  getCategoryCreatedEvent(): Observable<CategoryDto>{
-    return this.createdCategory.asObservable();
-  }
-  sendCategoryUpdatedEvent(updatedCategory:CategoryDto) {
-    this.updatedCategory.next(updatedCategory);
-  }
-  getCategoryUpdatedEvent(): Observable<CategoryDto>{
-    return this.updatedCategory.asObservable();
-  }
-  sendCategoryDeletedEvent(deletedCategoryID:number) {
-    this.deletedCategoryId.next(deletedCategoryID);
-  }
-  getCategoryDeletedEvent(): Observable<number>{
-    return this.deletedCategoryId.asObservable();
+  public getBrickDeletedEvent(): Observable<string>{
+    return this.deletedBrickId.asObservable();
   }
 }

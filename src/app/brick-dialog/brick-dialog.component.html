@@ -1,38 +1,100 @@
 <h1 mat-dialog-title><img src="assets/icons/lego.png" alt="logo">BricksManager 2.0</h1>
-<mat-divider></mat-divider>
+
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+<mat-progress-bar *ngIf="!isLoading" mode="determinate" value="100"></mat-progress-bar>
 
 <div mat-dialog-content>
   <form class="needs-validation">
 
     <div class="image-container">
-      <img src="assets/noImg.png" alt="No image selected">
+      <advanced-image *ngIf="cloudService.USE_CLOUD && data.brick.hasImage && isOriginalImage" [cldImg]="imageFromCloud"></advanced-image>
+      <img *ngIf="!data.brick.hasImage || (data.brick.hasImage && !isOriginalImage)" [src]="imageSrc" alt="brick image">
+      <p *ngIf="!data.brick.hasImage">Image not<br/>selected</p>
+      <div class="buttons-container">
+        <button appMenuBtn [attr.data-image]="btnUrls.addIconUrl" (click)="fileInput.click()">
+          <input #fileInput type="file" accept="image/*" (change)="onFileInput($event)" style="display:none;" />
+        </button>
+        <button appMenuBtn [attr.data-image]="btnUrls.deleteIconUrl" (click)="removeImage()"></button>
+      </div>
     </div>
 
     <div class="container">
 
       <div class="row">
-        <label for="inputBrickId" class="col col-form-label">Brick ID</label>
+        <label for="inputBrickId" class="col col-form-label">ID</label>
       </div>
       <div class="row">
         <div class="col">
           <div class="input-group has-validation">
-            <input [(ngModel)]="brickId" class="form-control" [ngClass]="!brickIdValid ? 'is-invalid' : ''"
+            <input *ngIf="data.isNew" [(ngModel)]="data.brick.id" class="form-control" [ngClass]="!brickIdValid ? 'is-invalid' : ''"
                    id="inputBrickId" name="inputBrickId" required>
-            <div *ngIf="!brickIdValid" class="invalid-feedback">{{invalidBrickIdMessage}}</div>
+            <input *ngIf="!data.isNew" [value]="data.brick.id" class="form-control" disabled>
+            <div *ngIf="data.isNew && !brickIdValid" class="invalid-feedback">This field is required</div>
           </div>
         </div>
       </div>
 
       <div class="row">
-        <label for="inputBrickName" class="col col-form-label">Brick Name</label>
+        <label for="inputBrickName" class="col col-form-label">Name</label>
       </div>
       <div class="row">
         <div class="col">
           <div class="input-group has-validation">
-            <input [(ngModel)]="brickName" class="form-control" [ngClass]="!brickNameValid ? 'is-invalid' : ''"
+            <input [(ngModel)]="data.brick.name" class="form-control" [ngClass]="!brickNameValid ? 'is-invalid' : ''"
                    id="inputBrickName" name="inputBrickName" required>
-            <div *ngIf="!brickNameValid" class="invalid-feedback">{{invalidBrickNameMessage}}</div>
+            <div *ngIf="!brickNameValid" class="invalid-feedback">This field is required</div>
           </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <label for="selectMaterial" class="col col-form-label">Material</label>
+      </div>
+      <div class="row">
+        <div class="col">
+
+            <mat-select [(ngModel)]="data.brick.materialID" class="form-control" name="selectMaterial" id="selectMaterial">
+              <mat-option *ngFor="let material of materials" [value]="material.id">
+                {{material.name}}
+              </mat-option>
+            </mat-select>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <label for="selectCategory" class="col col-form-label">Category</label>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-select [(ngModel)]="data.brick.categoryID" class="form-control" name="selectCategory" id="selectCategory">
+            <mat-option *ngFor="let category of categories" [value]="category.id">
+              {{category.name}}
+            </mat-option>
+          </mat-select>
+        </div>
+      </div>
+
+      <div class="row">
+        <label for="selectColors" class="col col-form-label">Colors</label>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-select multiple [(ngModel)]="data.brick.colorIDs" (selectionChange)="onColorSelected()"
+                      class="form-control" name="selectColors" id="selectColors">
+            <mat-select-trigger>
+              {{firstSelectedColorName}}
+              <span *ngIf="data.brick.colorIDs.length > 1" class="example-additional-selection">
+                (+{{data.brick.colorIDs.length - 1}} {{data.brick.colorIDs.length === 2 ? 'other' : 'others'}})
+              </span>
+            </mat-select-trigger>
+            <mat-option *ngFor="let color of colors" [value]="color.id">
+              <div class="color-div-small" [style.background-color]="'#'+color['rgb']">
+                <div *ngIf="color['isTrans']" class="color-div-trans"></div>
+              </div>
+              {{color.name}}
+            </mat-option>
+          </mat-select>
         </div>
       </div>
 

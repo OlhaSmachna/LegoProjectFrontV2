@@ -7,6 +7,7 @@ export interface BrickExtendedDto {
   id: string;
   name: string;
   hasImage: boolean;
+  imageVersion: number;
   materialID: number;
   categoryID: number;
   colorIDs: number[];

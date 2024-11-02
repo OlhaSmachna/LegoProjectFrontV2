@@ -5,18 +5,29 @@
   display: flex !important;
   height: 100vh;
   align-items: flex-start;
-  .menu-buttons{
-    display: flex;
-    flex-direction: column;
-    button{
-      border: none;
-      width: 30px;
-      height: 30px;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-color: transparent;
-      margin: 5px 10px;
-    }
+}
+.mat-drawer-side.mat-drawer-end{
+  border: none !important;
+}
+app-table{
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  max-height: 100vh !important;
+  min-height: 100vh !important;
+  overflow: hidden;
+}
+app-menu{
+  display: contents;
+}
+@media only screen and (max-width: 600px) {
+  .hide-table{
+    display: none;
+  }
+  .hide-table-parent{
+    overflow: hidden;
+  }
+  .sidenav-full{
+    width: unquote("calc(100% - 55px)");
   }
 }

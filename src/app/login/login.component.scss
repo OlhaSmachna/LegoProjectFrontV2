@@ -1,37 +1,29 @@
 h1{
   font-weight: normal;
+  font-size: 28px;
   width: auto;
 }
 img{
   float: right;
-  width: 100px;
+  width: 80px;
 }
-
 .col-form-label, .form-control{
-  font-size: 24pt;
+  font-size: 24px;
 }
 .invalid-feedback{
-  font-size: 14pt;
+  font-size: 12px;
   display: block;
 }
-
-
 .login-links{
-  font-size: 24pt;
+  font-size: 24px;
 }
-.login-links a, .login-links .fake-link{
-  color: black;
-  text-decoration: underline;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.login-links a:hover, .login-links .fake-link:hover{
-  color: #0d6efd;
-}
-
 .input-group{
   flex-direction: column;
+  input{
+    width: 100%;
+  }
 }
-.input-group input{
-  width: 100%;
+.logo-container{
+  align-items: center;
+  justify-content: center;
 }

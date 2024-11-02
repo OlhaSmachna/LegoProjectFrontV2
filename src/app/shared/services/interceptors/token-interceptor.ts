@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {catchError, switchMap} from 'rxjs/operators';
-import {HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import { HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {UserService} from "../api/user-service";
 import {UserEventsService} from "../events/user-events-service";
-import {TokenService} from "./token-service";
+import {TokenService} from "../tools/token-service";
 import {Router} from "@angular/router";
-import {ResponseHandler} from "./response-handler";
+import {ResponseHandler} from "../tools/response-handler";
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {

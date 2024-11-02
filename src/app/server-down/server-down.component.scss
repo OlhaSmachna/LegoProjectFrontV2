@@ -1,0 +1,45 @@
+.container{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  background-image: url("../../assets/images/chars/error.png");
+  background-repeat: no-repeat;
+  background-position: bottom 55px right;
+  background-size: 20%;
+
+  .row_{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    h1{
+      font-size: 75px;
+      margin-bottom: 0;
+    }
+    p{
+      font-size: 18px;
+      text-align: center;
+      margin: 16px 0 ;
+    }
+    img{
+      margin-right: 15px;
+      height: 90px;
+    }
+  }
+}
+
+a{
+  font-size: 18px;
+  line-height: 26px;
+  display: block;
+  height: 30px;
+  background-image: url("../../assets/icons/reload.png");
+  background-size: contain;
+  background-position: left;
+  padding-left: 40px;
+  &:hover{
+    background-image: url("../../assets/icons-active/reload.png");
+  }
+}

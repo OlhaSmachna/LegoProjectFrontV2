@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {HttpErrorResponse} from "@angular/common/http";
-import {ApiServiceResponse} from "../../models/DTOs/api-service-response";
+import { HttpErrorResponse } from "@angular/common/http";
+import {ApiServiceResponse} from "../../DTOs/api-service-response";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SnackbarComponent} from "../../../snackbar/snackbar.component";
 import { Router } from '@angular/router';
@@ -14,7 +14,7 @@ export enum ResponseTypes {
 @Injectable({
   providedIn: 'root'
 })
-export class ErrorHandler {
+export class ResponseHandler {
   constructor(
     private _snackBar: MatSnackBar,
     private router: Router
@@ -51,7 +51,7 @@ export class ErrorHandler {
     this._snackBar.openFromComponent(SnackbarComponent, {
       duration: duration,
       horizontalPosition: "right",
-      verticalPosition: "top",
+      verticalPosition: "bottom",
       data: data
     });
   }

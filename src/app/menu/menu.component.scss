@@ -1,0 +1,21 @@
+.menu-buttons{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--grey-bg-dark);
+
+  button{
+    border: none;
+    width: 35px;
+    height: 35px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    margin: 5px 10px;
+  }
+
+  .mat-divider{
+    margin-top: 11px !important;
+  }
+}

@@ -1,1 +1,224 @@
-<p>table works!</p>
+<div class="table-top">
+  <div class="table-info-container">
+
+    <div class="search-container">
+      <mat-form-field appearance="outline">
+        <input matInput [(ngModel)]="searchString" placeholder="Search by ID or Name" (keydown.enter)="search()">
+      </mat-form-field>
+      <button (click)="search()"></button>
+    </div>
+
+    <div *ngIf="bricksToDisplayCount != 0 && bricksToDisplayCount > displayCount" class="paginator-container">
+      <button id="prev" (click)="tablePrev()"
+        [ngClass]="ceil((displayStartIndex + 1) / displayCount) > 1 ? 'active' : ''"></button>
+      <span>{{ceil((displayStartIndex + 1) / displayCount)}} / {{ceil(bricksToDisplayCount / displayCount)}}</span>
+      <button id="next" (click)="tableNext()"
+        [ngClass]="ceil((displayStartIndex + 1) / displayCount) < ceil(bricksToDisplayCount / displayCount) ? 'active' : ''"></button>
+    </div>
+
+    <div class="search-results-container">
+      <span *ngIf="bricksToDisplayCount != 0" class="hidden-750">{{displayStartIndex + 1}} -</span>
+      <span *ngIf="bricksToDisplayCount != 0" class="hidden-750">{{getMaxDisplayLimit()}} /</span>
+      <span class="hidden-650">{{bricksToDisplayCount}}</span>
+      <img *ngIf="bricksToDisplayCount == 0" class="hidden-650 search-result-img" src="assets/icons/result.png" alt="search results">
+      <img *ngIf="bricksToDisplayCount != 0" class="hidden-650 search-result-img" src="assets/icons-active/result.png" alt="search results">
+    </div>
+
+  </div>
+
+  <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+  <mat-progress-bar *ngIf="!isLoading" mode="determinate" value="100"></mat-progress-bar>
+</div>
+
+<div [ngClass]="bricksToDisplayCount > 0 ? 'table-container' : 'table-container has-bg'">
+  <table mat-table matSort [dataSource]="dataSource" (matSortChange)="sortBricks($event)" multiTemplateDataRows>
+
+    <ng-container matColumnDef="image" sticky>
+      <th mat-header-cell mat-sort-header start="desc" *matHeaderCellDef>Image</th>
+      <td mat-cell *matCellDef="let element">
+        <advanced-image *ngIf="cloudService.USE_CLOUD && element['hasImage']" [cldImg]="element['img']"></advanced-image>
+        <!--<img *ngIf="element['hasImage']" class="brick-img" src='{{ "assets/bricks/" + element.id + ".png" }}'/>-->
+        <div *ngIf="!element['hasImage']" class="brick-noimg">?</div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="material">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Material</th>
+      <td mat-cell *matCellDef="let element"> {{element['material']}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="colors">
+      <th mat-header-cell mat-sort-header start="desc" *matHeaderCellDef>
+        Color{{!displayedByList ? 's' : ''}}
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngFor="let color of element['colors']" class="color-div-large"
+             [style.background-color]="'#'+color['rgb']"
+             [matTooltip]="color['name']" matTooltipPosition="above">
+          <div *ngIf="color['isTrans']" class="color-div-trans"></div>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container *ngIf="displayedByList" matColumnDef="quantity">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef> Quantity </th>
+      <td mat-cell *matCellDef="let element"> {{element['quantity']}} </td>
+    </ng-container>
+
+    <ng-container *ngIf="isUserAuthenticated" matColumnDef="actions" >
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let element" style="vertical-align: top;">
+        <div class="table-cell-btn-container">
+          <div class="table-cell-btn-col">
+            <button appMenuBtn
+                    *ngIf='isUserAuthenticated'
+                    class="table-btn"
+                    [ngClass]="isUserAdmin ? 'btn-admin' : 'btn-user'"
+                    [attr.data-image]="displayedByList ? btnUrls.editListIconUrl : btnUrls.toListIconUrl"
+                    matTooltip="{{displayedByList ? 'Change quantity / Remove' : 'Add to list'}}"
+                    matTooltipPosition="before" matTooltipShowDelay="1000"
+                    data-active="false"
+                    (click)="expandedElement = expandedElement === element ? null : element;
+                    quantityInList = element['quantity'];
+                    onTabChanged(0, element.id);">
+            </button>
+          </div>
+
+          <div class="table-cell-btn-col">
+            <button appMenuBtn
+                    *ngIf='isUserAuthenticated && isUserAdmin'
+                    class="table-btn btn-admin"
+                    [attr.data-image]="btnUrls.editIconUrl"
+                    matTooltip="Edit" matTooltipPosition="before" matTooltipShowDelay="1000"
+                    data-active="false"
+                    (click)="editBrickClick(element.id)">
+            </button>
+            <button appMenuBtn
+                    *ngIf='isUserAuthenticated && isUserAdmin'
+                    class="table-btn btn-admin"
+                    matTooltip="Delete" matTooltipPosition="before" matTooltipShowDelay="1000"
+                    [attr.data-image]="btnUrls.deleteIconUrl"
+                    data-active="false"
+                    (click)="deleteBrickClick(element.id)">
+            </button>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- Expanded detail -->
+    <ng-container  matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length" class="expanded">
+        <div *ngIf="isUserAuthenticated" class="element-detail"
+             [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+            <div [style.height.px]="tabContentHeight">
+              <mat-tab-group #tabGroup *ngIf="element == expandedElement"
+                             (selectedTabChange)="onTabChanged(tabGroup.selectedIndex, element.id)"
+                             mat-stretch-tabs="false" mat-align-tabs="start">
+
+                <mat-tab *ngIf="displayedByList" label="Edit in List">
+                  <div class="form-row adjusted">
+                    <div class="form-group adjusted">
+                      <label for="quantityInList" class="col col-form-label">Quantity</label>
+                      <mat-form-field appearance="outline">
+                        <input matInput [(ngModel)]="quantityInList" id="quantityInList" type="number" min="1" step="1"
+                               (change)="onQuantityChange()">
+                      </mat-form-field>
+                    </div>
+
+                    <div class="form-group adjusted">
+                      <button mat-button color="primary" (click)="editInListClick(element)">SAVE</button>
+                      <button mat-button color="warn" (click)="deleteFromListClick(element)">REMOVE</button>
+                    </div>
+                  </div>
+                </mat-tab>
+
+                <mat-tab label="Add to List">
+                  <div class="form-row">
+                    <div class="form-group">
+
+                      <label for="selectColor" class="col col-form-label">Color</label>
+
+                      <ng-container *ngIf="this.displayedByList && tabIndex == 1; else selectDefault">
+                        <mat-select [(ngModel)]="selectedColor" class="form-control">
+                          <mat-option *ngIf="!hasDefaultColorOption(availableColors)" [value]="9999" class="default-option">
+                            [Any color]
+                          </mat-option>
+                          <ng-container *ngIf="availableColors">
+                            <mat-option *ngFor="let color of availableColors" [value]="color.id">
+                              <div class="color-div-small" [style.background-color]="'#' + color['rgb']">
+                                <div *ngIf="color['isTrans']" class="color-div-trans"></div>
+                              </div>
+                              {{color.name}}
+                            </mat-option>
+                          </ng-container>
+                        </mat-select>
+                      </ng-container>
+                      <ng-template #selectDefault>
+                        <mat-select [(ngModel)]="selectedColor" class="form-control" id="selectColor">
+                          <mat-option *ngIf="!hasDefaultColorOption(element['colors'])" [value]="9999" class="default-option">
+                            [Any color]
+                          </mat-option>
+                          <ng-container *ngIf="element['colors']">
+                            <mat-option *ngFor="let color of element['colors']" [value]="color.id">
+                              <div class="color-div-small" [style.background-color]="'#' + color['rgb']">
+                                <div *ngIf="color['isTrans']" class="color-div-trans"></div>
+                              </div>
+                              {{color.name}}
+                            </mat-option>
+                          </ng-container>
+                        </mat-select>
+                      </ng-template>
+
+                    </div>
+
+                    <div class="form-group">
+                      <label for="selectQuantity" class="col col-form-label">Quantity</label>
+                      <mat-form-field appearance="outline">
+                        <input matInput [(ngModel)]="selectedQuantity" id="selectQuantity" type="number" min="1" step="1"
+                               (change)="onQuantityChange()">
+                      </mat-form-field>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="selectList" class="col col-form-label">Add to List</label>
+                      <mat-select [(ngModel)]="selectedListId" class="form-control" id="selectList">
+                        <mat-option [value]="-1" class="default-option">[New List]</mat-option>
+                        <ng-container *ngIf="userLists">
+                          <mat-option *ngFor="let list of userLists" [value]="list.id">
+                            {{list.name}}
+                          </mat-option>
+                        </ng-container>
+                      </mat-select>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <button mat-button color="primary" (click)="toListBrickClick(element.id)">ADD</button>
+                  </div>
+                </mat-tab>
+
+              </mat-tab-group>
+            </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [class.example-expanded-row]="expandedElement === row"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+  </table>
+
+  <p *ngIf="tableAnnouncement != ''">{{tableAnnouncement}}</p>
+</div>
+

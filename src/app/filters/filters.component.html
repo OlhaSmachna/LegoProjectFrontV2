@@ -1,1 +1,51 @@
-<p>filters works!</p>
+<div *ngIf="isLoading" class="loading">
+  <div class="loader">Loading...</div>
+  <p>Connecting to server.<br>Please wait.</p>
+</div>
+
+<p *ngIf="!isLoading">
+  <mat-slide-toggle [(ngModel)]="isFiltersApplied" (change)="checkFilters()">Apply Filters</mat-slide-toggle>
+</p>
+
+<mat-accordion *ngIf="!isLoading">
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Materials
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-selection-list (selectionChange)="resetFiltersStatus()" [(ngModel)]="selectedMaterials">
+      <mat-list-option *ngFor="let material of materials" [value]="material">
+        {{material.name}}
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Colors
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-selection-list (selectionChange)="resetFiltersStatus()" [(ngModel)]="selectedColors">
+      <mat-list-option *ngFor="let color of colors" [value]="color">
+        <div class="color-div-large" [style.background-color]="'#'+color['rgb']">
+          <div *ngIf="color['isTrans']" class="color-div-trans"></div>
+        </div>
+        {{color.name}}
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-expansion-panel>
+
+  <mat-card>
+    <mat-card-content>
+      <mat-selection-list (selectionChange)="resetFiltersStatus()" [(ngModel)]="selectedIsTransparent">
+        <mat-list-option [value]="true">
+          Transparent
+        </mat-list-option>
+      </mat-selection-list>
+    </mat-card-content>
+  </mat-card>
+
+</mat-accordion>

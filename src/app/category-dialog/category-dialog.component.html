@@ -1,1 +1,24 @@
-<p>category-dialog works!</p>
+<h1 mat-dialog-title><img src="assets/icons/lego.png" alt="logo">BricksManager 2.0</h1>
+<mat-divider></mat-divider>
+<div mat-dialog-content>
+  <form class="needs-validation">
+    <div class="container">
+      <div class="row">
+          <label for="inputCategoryName" class="col col-form-label">Category Name</label>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="input-group has-validation">
+            <input [(ngModel)]="categoryName" class="form-control" [ngClass]="!categoryNameValid ? 'is-invalid' : ''"
+                   id="inputCategoryName" name="inputCategoryName" required>
+            <div *ngIf="!categoryNameValid" class="invalid-feedback">This field is required</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button class="confirm-btn" (click)="saveCategory()" cdkFocusInitial>Save</button>
+  <button mat-button class="cancel-btn" [mat-dialog-close]="false">Cancel</button>
+</div>

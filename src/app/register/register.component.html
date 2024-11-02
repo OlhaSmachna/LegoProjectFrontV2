@@ -1,1 +1,56 @@
-<p>register works!</p>
+<div class="flex-container d-flex align-items-center justify-content-center">
+  <form>
+    <div class="container">
+
+      <div class="row logo-container mb-4">
+        <img class="col-4" alt="app-logo" src="assets/icons/lego.png">
+        <h1 class="col-8">BricksManager 2.0</h1>
+      </div>
+
+      <div class="row mb-3">
+        <label for="inputEmail" class="col-md-5 col-sm-12 col-form-label">Email</label>
+        <div class="col-md-7 col-sm-12">
+          <div class="input-group has-validation">
+            <input [(ngModel)]="email" type="email" class="form-control" [ngClass]="!emailValid ? 'is-invalid' : ''"
+                   id="inputEmail" name="inputEmail" required
+                   (keydown.enter)="(password == '' || confirmPassword == '')? inputPassword.select() : register()">
+            <div *ngIf="!emailValid" class="invalid-feedback">{{invalidEmailMessage}}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <label for="inputPassword" class="col-md-5 col-sm-12 col-form-label">Password</label>
+        <div class="col-md-7 col-sm-12">
+          <div class="input-group has-validation">
+            <input #inputPassword [(ngModel)]="password" type="password" class="form-control" [ngClass]="!passwordValid ? 'is-invalid' : ''"
+                   id="inputPassword" name="inputPassword" required
+                   (keydown.enter)="(confirmPassword == '')? inputConfirmPassword.select() : register()">
+            <div *ngIf="!passwordValid" class="invalid-feedback">{{invalidPasswordMessage}}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-4">
+        <label for="inputConfirmPassword" class="col-md-5 col-sm-12 col-form-label">Confirm Password</label>
+        <div class="col-md-7 col-sm-12">
+          <div class="input-group has-validation">
+            <input #inputConfirmPassword [(ngModel)]="confirmPassword" type="password" class="form-control"
+                   [ngClass]="!confirmPasswordValid ? 'is-invalid' : ''"
+                   id="inputConfirmPassword" name="inputConfirmPassword" required
+                   (keydown.enter)="register()">
+            <div *ngIf="!confirmPasswordValid" class="invalid-feedback">{{invalidConfirmPasswordMessage}}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col text-center login-links">
+          <span class="fake-link" (click)="register()">Register</span> or <a [routerLink]="['/bricks_manager/login']">Login</a> if already have an account
+        </div>
+      </div>
+
+    </div>
+  </form>
+</div>
+

@@ -1,0 +1,101 @@
+<div class="dialog-custom-header">
+  <h1 mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane"><img src="assets/icons/lego.png" alt="logo">BricksManager 2.0</h1>
+  <div mat-dialog-actions>
+    <button mat-button class="mode-btn" [ngClass]="{'mode-btn-active': mode === Mode.MONITOR }" (click)="modeBtnClick()" cdkFocusInitial>Monitor</button>
+    <button mat-button class="mode-btn" [ngClass]="{'mode-btn-active': mode === Mode.BENCHMARK }" (click)="modeBtnClick()">Benchmark</button>
+    <button mat-button class="cancel-btn" (click)="closeDialog()">X</button>
+  </div>
+</div>
+<mat-divider></mat-divider>
+
+<div mat-dialog-content *ngIf="mode === Mode.MONITOR">
+  <div class="chart-wrapper">
+  <ngx-charts-area-chart
+    [scheme]=colorScheme
+    [legend]=legend
+    [legendPosition]=legendPosition
+    [legendTitle]=legendTitle
+    [xAxis]=xAxis
+    [yAxis]=yAxis
+    [showXAxisLabel]=showXAxisLabel
+    [showYAxisLabel]=showYAxisLabel
+    [yAxisLabel]=yAxisLabel
+    [timeline]=timeline
+    [results]=monitorData.data
+    (select)=onSelect($event)>
+
+    <ng-template #tooltipTemplate let-model="model">
+        <h5>
+          {{model.value}} s
+        </h5>
+        <h6>{{ model.method }} • {{ model["extra"]["requestUrl"] }}</h6>
+        <h6>{{ model["extra"]["params"] }}</h6>
+    </ng-template>
+
+    <ng-template #seriesTooltipTemplate let-model="model">
+      <div *ngFor="let m of model; let i = index">
+        <h6>{{m.value}} s • {{ m.method }} • {{ m["extra"]["requestUrl"] }}</h6>
+      </div>
+    </ng-template>
+
+  </ngx-charts-area-chart>
+  </div>
+</div>
+
+<div mat-dialog-content *ngIf="mode === Mode.BENCHMARK">
+  <div class="chart-wrapper">
+    <div class="test-menu">
+      <button mat-button class="mode-btn" [disabled]="isRunning" (click)="runBenchmark()">Run Benchmark:</button>
+
+      <span>make</span>
+
+      <div class="form-group">
+        <mat-form-field appearance="outline">
+          <input matInput [(ngModel)]="callsQuantity" id="selectQuantity" type="number" min="10" max="10000" step="10"
+                 (change)="onQuantityChange()">
+        </mat-form-field>
+      </div>
+
+      <span>calls to</span>
+
+      <div class="form-group">
+        <mat-select [(ngModel)]="selectedCategory" class="form-control" id="selectList">
+          <mat-option [value]="0">FULL DB</mat-option>
+          <mat-option *ngFor="let cat of categories" [value]="cat.id">
+            {{cat.name}}
+          </mat-option>
+        </mat-select>
+      </div>
+    </div>
+
+    <ngx-charts-area-chart
+      [scheme]=colorScheme
+      [legend]=false
+      [xAxis]=xAxis
+      [yAxis]=yAxis
+      [showXAxisLabel]=showXAxisLabel
+      [showYAxisLabel]=showYAxisLabel
+      [yAxisLabel]=yAxisLabel
+      [yScaleMax]=selectedCategory?1:5
+      [timeline]=timeline
+      [results]=benchmarkData.data
+      (select)=onSelect($event)>
+
+      <ng-template #tooltipTemplate let-model="model">
+        <h5>
+          {{model.value}} s
+        </h5>
+        <h6>{{ model.method }} • {{ model["extra"]["requestUrl"] }}</h6>
+        <h6>{{ model["extra"]["params"] }}</h6>
+      </ng-template>
+
+      <ng-template #seriesTooltipTemplate let-model="model">
+        <div *ngFor="let m of model; let i = index">
+          <h6>{{m.value}} s • {{ m.method }} • {{ m["extra"]["requestUrl"] }}</h6>
+        </div>
+      </ng-template>
+
+    </ngx-charts-area-chart>
+    <p *ngIf="mode === Mode.BENCHMARK">{{benchmarkResult}}</p>
+  </div>
+</div>
