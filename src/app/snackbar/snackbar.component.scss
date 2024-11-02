@@ -1,0 +1,21 @@
+:host {
+  display: flex;
+  padding: 10px;
+  align-items: center;
+}
+img {
+  width: 40px;
+  margin-left: 20px;
+}
+::ng-deep .mdc-snackbar__surface {
+  background-color: #E8EDFC !important;
+}
+::ng-deep .mat-mdc-snack-bar-label{
+  color: black !important;
+}
+::ng-deep .mat-mdc-snack-bar-action{
+  color: black !important;
+  &:hover{
+    color: #0d6efd !important;
+  }
+}

@@ -1,0 +1,47 @@
+<h1 mat-dialog-title><img src="assets/icons/lego.png" alt="logo">BricksManager 2.0</h1>
+<mat-divider></mat-divider>
+
+<div mat-dialog-content>
+  <form class="needs-validation">
+
+    <div class="image-container">
+      <img src="assets/noImg.png" alt="No image selected">
+    </div>
+
+    <div class="container">
+
+      <div class="row">
+        <label for="inputBrickId" class="col col-form-label">Brick ID</label>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="input-group has-validation">
+            <input [(ngModel)]="brickId" class="form-control" [ngClass]="!brickIdValid ? 'is-invalid' : ''"
+                   id="inputBrickId" name="inputBrickId" required>
+            <div *ngIf="!brickIdValid" class="invalid-feedback">{{invalidBrickIdMessage}}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <label for="inputBrickName" class="col col-form-label">Brick Name</label>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="input-group has-validation">
+            <input [(ngModel)]="brickName" class="form-control" [ngClass]="!brickNameValid ? 'is-invalid' : ''"
+                   id="inputBrickName" name="inputBrickName" required>
+            <div *ngIf="!brickNameValid" class="invalid-feedback">{{invalidBrickNameMessage}}</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button class="confirm-btn" (click)="saveBrick()" cdkFocusInitial>Save</button>
+  <button mat-button class="cancel-btn" [mat-dialog-close]="false">Cancel</button>
+</div>

@@ -1,0 +1,37 @@
+h1{
+  font-weight: normal;
+  width: auto;
+}
+img{
+  float: right;
+  width: 100px;
+}
+
+.col-form-label, .form-control{
+  font-size: 24pt;
+}
+.invalid-feedback{
+  font-size: 14pt;
+  display: block;
+}
+
+
+.login-links{
+  font-size: 24pt;
+}
+.login-links a, .login-links .fake-link{
+  color: black;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.login-links a:hover, .login-links .fake-link:hover{
+  color: #0d6efd;
+}
+
+.input-group{
+  flex-direction: column;
+}
+.input-group input{
+  width: 100%;
+}

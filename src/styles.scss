@@ -1,0 +1,41 @@
+*{
+  font-family: "Segoe UI";
+}
+html, body, .flex-container{
+  height: 100vh;
+}
+body{
+  background-color: #f1f2f6;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+footer{
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  background-color: #dfe0e3;
+  bottom: 0;
+}
+
+footer p{
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+footer a{
+  color: black;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: 0.3s;
+  background-image: url("assets/icons/github.png");
+  background-repeat: no-repeat;
+  background-size: 18px;
+  background-position-y: 2px;
+  padding-left: 22px;
+}
+footer a:hover{
+  color: #0d6efd;
+  background-image: url("assets/icons/github-blue.png");
+}

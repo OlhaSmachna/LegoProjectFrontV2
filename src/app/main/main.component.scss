@@ -1,0 +1,22 @@
+.mat-drawer:not(.mat-drawer-side){
+  box-shadow: none !important;
+}
+.mat-drawer-content{
+  display: flex !important;
+  height: 100vh;
+  align-items: flex-start;
+  .menu-buttons{
+    display: flex;
+    flex-direction: column;
+    button{
+      border: none;
+      width: 30px;
+      height: 30px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-color: transparent;
+      margin: 5px 10px;
+    }
+  }
+}
