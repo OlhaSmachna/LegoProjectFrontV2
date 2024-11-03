@@ -471,11 +471,13 @@ export class TableComponent implements OnInit, OnDestroy{
   }
   public onTabChanged(selectedIndex: number | null, brickId: string): void {
     this.tabIndex = selectedIndex ?? 0;
-    if((!this.displayedByList && selectedIndex == 0) || (this.displayedByList && selectedIndex == 1))
+    if((!this.displayedByList && selectedIndex == 0) || (this.displayedByList && selectedIndex == 1)) {
+      this.selectedQuantity = 1;
       this.tabContentHeight = 180;
-    else
+    }    
+    else {
       this.tabContentHeight = 122;
-
+    }
     if(this.displayedByList && selectedIndex == 1) {
       this.colorService.getColorsByBrick(brickId)
         .subscribe({
