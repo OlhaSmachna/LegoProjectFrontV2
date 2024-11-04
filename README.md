@@ -1,5 +1,14 @@
 # LegoProjectFront
 
+Angular web interface for Lego inventory management app featured in my Master's diploma project written on the topic of optimizing database structure, functioning and it's interacrions with other application components. Here's a list of implemented features with pictures
+
+<p>Login & Registration forms with client and server side validation<p/>
+<img alt="Login form" src="https://res.cloudinary.com/dpp5ocil3/image/upload/c_crop,w_800,h_800,ar_1:1/v1730543760/portfolio%20images/lego%20project/LoginPage.png" width="49%"/>
+<img alt="Registration form" src="https://res.cloudinary.com/dpp5ocil3/image/upload/c_crop,w_800,h_800,ar_1:1/v1730676529/portfolio%20images/lego%20project/RegistrationPage.png" width="49%"/>
+
+<p>About & Credits<p/>
+<img alt="About page" src="https://res.cloudinary.com/dpp5ocil3/image/upload/v1730678372/portfolio%20images/lego%20project/AboutPage.png" width="100%"/>
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.11.
 
 ## Development server
