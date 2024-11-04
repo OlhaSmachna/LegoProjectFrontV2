@@ -8,6 +8,8 @@
 .container-md{
   padding-top: 60px;
   padding-bottom: 60px;
+  height: 100vh !important;
+  flex-direction: column;
 
   .logo-container{
     display: flex;
@@ -52,6 +54,7 @@
   }
 
   .credits{
+    margin-top: 100px;
     p{
       text-align: center;
 

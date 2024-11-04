@@ -1,0 +1,72 @@
+.nav-container {
+  position: fixed;
+  background: var(--grey-bg-dark);
+  width: 100%;
+  padding: 10px 24px;
+}
+
+.container-md {
+  padding-top: 60px;
+  padding-bottom: 60px;
+  height: 100vh !important;
+  flex-direction: column;
+}
+
+.container-md .logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container-md .logo-container img {
+  width: 50px;
+  margin: 0 10px;
+}
+
+.container-md .logo-container h1 {
+  margin-bottom: 0;
+}
+
+.container-md h1 {
+  font-size: 20pt;
+  text-align: center;
+}
+
+.container-md .about .large-txt {
+  text-align: justify;
+}
+
+.container-md .about .git-link {
+  text-align: center;
+}
+
+.container-md .about .git-link a {
+  background-image: url("../../assets/icons/github.png");
+  background-size: 18px;
+  background-position-y: 2px;
+  padding-left: 22px;
+}
+
+.container-md .about .git-link a:hover {
+  background-image: url("../../assets/icons-active/github.png");
+}
+
+.container-md .credits {
+  margin-top: 100px;
+}
+
+.container-md .credits p {
+  text-align: center;
+}
+
+.container-md .credits p a {
+  text-decoration: none !important;
+}
+
+.container-md .credits p a img {
+  width: 150px;
+}
+
+.container-md .credits p a span {
+  text-decoration: underline !important;
+}
